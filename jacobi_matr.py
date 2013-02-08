@@ -16,9 +16,10 @@ def eig_calc(arr):
     v2 = 1
     u1 = v1 / sqrt(v1**2 + 1)
     u2 = 1 / sqrt(v1**2 + 1)
+    print 'u1, u2' + str(u1) + ' ' + str(u2) 
     eigvects.append(array([u1, u2]))
   return [eigvals, eigvects]
-print 'eigvals:' + " ".join(map(str, eig_calc(array([[1.0,2.0],[2.0,8.0]]))[0]))
+
 ## A = D + R
 ## x_k+1 = D^(-1) (b - Rx_k)
 def diagonalize_2by2(arr):
@@ -29,6 +30,6 @@ def diagonalize_2by2(arr):
   d= array([[vals[0], 0], [0, vals[1]]])
   return [g, d, transpose(g)]
 
-mats = diagonalize_2by2(array([[10.0,2.0],[2.0,8.0]]))
+mats = diagonalize_2by2(array([[1.0,2.0],[2.0,8.0]]))
 print mats
 print (dot(dot(mats[0], mats[1]), mats[2]))
