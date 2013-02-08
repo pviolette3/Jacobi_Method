@@ -4,20 +4,34 @@ def eig_calc(arr):
   a = arr[0][0]
   b = arr[0][1]
   c = arr[1][1]
+  eigvals = calc_eigvals(a, b, c)
+  eigvects = calc_eigvects(a, b, c, eigvals)
+  return [eigvals, eigvects]
+
+def calc_eigvals(a, b, c):
+  if b == 0:##it is already diagonalized!
+    return [a,c]
   eigvals = []
   base = (a + c)/2
-  discrim = sqrt(a**2 - 2*a*c + 4*b**2 + c**2)
-  eigvals.append(base + discrim/2)
-  eigvals.append(base - discrim/2)
+  radius = sqrt(a**2 - 2*a*c + 4*b**2 + c**2)/2
+  eigvals.append(base + radius)
+  eigvals.append(base - radius)
+  return eigvals
 
-  eigvects = []
-  for l in eigvals:
-    v1 = b / (a - l)
-    v2 = 1
-    u1 = v1 / sqrt(v1**2 + 1)
-    u2 = 1 / sqrt(v1**2 + 1)
-    eigvects.append(array([u1, u2]))
-  return [eigvals, eigvects]
+def calc_eigvects(a, b, c, eigvals):
+  if b == 0:##already diagonal...return I
+    if eigvals[0] == a:
+       return [array([1.0,0.0]), array([0.0, 1.0])]
+    elif eigvals[0] == b:
+      return  [array([0.0,1.0]), array([1.0, 0.0])]
+    else:
+      raise err
+  def eigvect_of(l):
+    v1 = 1
+    v2 = (l - a) / b
+    mag = sqrt(v1**2 + v2**2)
+    return array([v1 / mag, v2 / mag]) 
+  return map(eigvect_of, eigvals)
 
 ## A = D + R
 ## x_k+1 = D^(-1) (b - Rx_k)
