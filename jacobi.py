@@ -1,4 +1,3 @@
-
 import random as rand
 from scipy import mat
 def g_matrix(num_rows, num_cols, generating):
@@ -26,7 +25,7 @@ def random_diagonal_matrix(size, max_element, use_ints=False):
 
 	return g_matrix(size, size, diag_generator)
 
-def stringify(list):
+def(list):
 	res = ""
 	for l in list:
 		res += "[" + (" ".join(map(str, l))) + "]\n"
