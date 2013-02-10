@@ -76,6 +76,18 @@ def offset(matr):
         res += matr[i][j] ** 2
   return res
 
+def random_diagonal_matrix(size, max_element):
+	reflected = {}
+	def diag_generator(row, col):
+		if row <= col:
+			val = rand.random() * max_element
+			reflected[(row, col)] = int(val + 1) if use_ints else val
+			return reflected[(row, col)]
+		else:
+			return reflected[(col, row)]
+  return fromfunction(diag_generator, (size, size), dtype=float)
+
+
 def jacobi_diagonalize(sym_arr, offset_threshold=10**-6):
   n =  len(sym_arr)
   diagonal = sym_arr.astype(float).copy()

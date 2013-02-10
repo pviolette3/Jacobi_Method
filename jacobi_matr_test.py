@@ -37,6 +37,8 @@ class JacobiDiagonalization(unittest.TestCase):
     result = jacobi_matr.jacobi_diagonalize(carl_arr, 10**-6)
     assert_array_almost_equal(array([4,0,0,0,1,0,0,0,1]).reshape(3,3),
         result[1], 5)
+    assert_array_almost_equal(carl_arr, reduce(dot, result,
+      eye(3)))
 
 if __name__ == "__main__":
   unittest.main()
