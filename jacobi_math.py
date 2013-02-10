@@ -1,11 +1,13 @@
 from numpy import *
 
 def jacobi_diagonalize(sym_arr, offset_threshold=10**-6, record = lambda off,
-    cur_diag, cur_steps: None):
+    cur_diag, cur_steps: None, start = lambda mat: None, stop = lambda res :
+    None):
   n =  len(sym_arr)
   diagonal = sym_arr.astype(float).copy()
   steps = eye(n)
   off = offset(diagonal)
+  start(diagonal)
   record(off, diagonal, steps)
   while off >= offset_threshold:
     largest_offset_pos = largest_off_index(diagonal)
@@ -16,7 +18,10 @@ def jacobi_diagonalize(sym_arr, offset_threshold=10**-6, record = lambda off,
     steps = dot(steps, as_n_mat)
     off = offset(diagonal)
     record(off, diagonal, steps)
-  return [steps, diagonal, transpose(steps)]
+  res =  [steps, diagonal, transpose(steps)]
+  stop(res)
+  return res
+
 
 def diagonalize_2by2(arr):
   eigs = eig_calc(arr)

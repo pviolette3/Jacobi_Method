@@ -4,6 +4,8 @@ import unittest
 from numpy.testing import assert_array_almost_equal
 from numpy import array, dot, eye
 
+def to_wolfram_alpha_string(vals):
+ return  vals.replace("[", "{").replace("]", "}").replace('  ', ',').replace('.', '')
 
 class TwoByTwoDiagonalization(unittest.TestCase):
   matrices = [arr.reshape(2,2) for arr in [
