@@ -1,7 +1,9 @@
+import math
 import jacobi_matr
 import unittest
 from numpy.testing import assert_array_almost_equal
 from numpy import array, dot, eye
+
 
 class TwoByTwoDiagonalization(unittest.TestCase):
   matrices = [arr.reshape(2,2) for arr in [
@@ -10,6 +12,7 @@ class TwoByTwoDiagonalization(unittest.TestCase):
       array([1.0,2.0,2.0,8.0]),
       array([1.0,1.0,1.0,2.0])]]
   
+
   def testSanity(self):
     for matr in self.matrices:
       vals = jacobi_matr.diagonalize_2by2(matr)
@@ -25,7 +28,7 @@ class TwoByTwoDiagonalization(unittest.TestCase):
   def testDiagonalization(self):
     vals = jacobi_matr.diagonalize_2by2(array([2,1,1,2]).reshape(2,2))
     assert_array_almost_equal(vals[1], array([3,0,0,1]).reshape(2,2), 10)
-    assert_array_almost_equal(vals[0], 1/sqrt(2)*array([1,1,-1,1]).reshape(2,2))
+    assert_array_almost_equal(vals[0], ((1/math.sqrt(2))*array([1,1,1,-1])).reshape(2,2))
 
 class JacobiDiagonalization(unittest.TestCase):
   

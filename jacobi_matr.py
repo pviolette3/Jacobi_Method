@@ -39,7 +39,7 @@ def diagonalize_2by2(arr):
   vects = eigs[1]
   g = array([vects[0], vects[1]])
   d= array([[vals[0], 0], [0, vals[1]]])
-  return [g, d, transpose(g)]
+  return [transpose(g), d, g]
 
 def small_matr_of(large, pos):
   a = pos[0]
@@ -53,7 +53,7 @@ def largest_off_index(sym_matr):
   for i in range(len(sym_matr)):
     for j in range(i, len(sym_matr)):
         off = sym_matr[i][j] ** 2
-        if off > max:
+        if off > max and i != j:
           max = off
           pos = [i,j]
   return pos
@@ -72,22 +72,20 @@ def offset(matr):
   res = 0
   for i in range(len(matr)):
     for j in range(len(matr)):
-      res += matr[i][j] ** 2
+      if i != j:
+        res += matr[i][j] ** 2
   return res
 
 def jacobi_diagonalize(sym_arr, offset_threshold=10**-6):
   n =  len(sym_arr)
-  diagonal = sym_arr.copy()
+  diagonal = sym_arr.astype(float).copy()
   steps = eye(n)
   off = offset(diagonal)
   while off >= offset_threshold:
     largest_offset_pos = largest_off_index(diagonal)
     diagonalized_small = diagonalize_2by2(small_matr_of(diagonal,
       largest_offset_pos))
-    as_n_mat =  promote(diagonalized_small[1],largest_offset_pos, n)
-    print ' '.join(map(str, largest_offset_pos))
-    print diagonalized_small[1]
-    print as_n_mat
+    as_n_mat =  promote(diagonalized_small[0],largest_offset_pos, n)
     diagonal = dot(dot(transpose(as_n_mat), diagonal), as_n_mat)
     steps = dot(steps, as_n_mat)
     off = offset(diagonal)
