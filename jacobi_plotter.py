@@ -88,6 +88,7 @@ class MultiPlotter:
     plt.figure(1)
     rows, cols = self.fit_dim(len(self.plotters))
     i = 1
+    plt.suptitle("Offsets v Iterations", fontsize=20)
     for plotter in self.plotters:
       plt.subplot(rows, cols, i)
       plotter.plot()
