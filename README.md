@@ -9,9 +9,9 @@ The program runs well for smaller matrices (< 50x50), but after trying to diagon
 
 Features
 ========
-*Diagonalize a random symmetric matrix, or extend for your own symmetric matrix
-*Log the offsets over time to text files, or extend with your own callbacks
-*Show simple plot of the offsets over time with the -p flag
+* Diagonalize a random symmetric matrix, or extend for your own symmetric matrix
+* Log the offsets over time to text files, or extend with your own callbacks
+* Show simple plot of the offsets over time with the -p flag
 
 Dependencies
 ============
