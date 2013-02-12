@@ -12,13 +12,12 @@ Dependencies
 This project depends on numpy for heavy matrix multiplication and matplotlib for graphing.
 
 They can easily be installed in Ubuntu with the package manager:
-sudo apt-get install python-numpy
-sudo apt-get install python-matplotlib
+        sudo apt-get install python-numpy
+        sudo apt-get install python-matplotlib
 
 Usage
 =====
 Run
-python jacobi.py
+        python jacobi.py
 to execute the program
 
-<<COMING SOON>> command line parameters
