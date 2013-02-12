@@ -52,6 +52,21 @@ class Plotter:
     for line in self.file:
       vals = line.split(",")
       points.append(float(vals[1]))
-    plt.plot(points)
-    plt.show()
+    plt.plot(range(len(points)), points, 'r--')
 
+class MultiPlotter:
+  def __init__(self, locations):
+    self.plotters = []
+    for file_location in locations:
+      self.plotters.append(Plotter(file_location))
+
+  def plot(self):
+    plt.figure(1)
+    rows = 5
+    cols = 2
+    i = 1
+    for plotter in self.plotters:
+      plt.subplot(rows, cols, i)
+      plotter.plot()
+      i += 1
+    plt.show()

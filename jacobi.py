@@ -1,9 +1,8 @@
+#! /usr/local/bin/python
 import jacobi_math as jmath
 import random as rand
 import numpy as np
 import jacobi_plotter as jplot 
-
-filename = 'jacobi_data.txt'
 
 def generate_matrix(rows, cols, generating_function):
   result = []
@@ -23,9 +22,20 @@ def random_diagonal_matrix(size, max_element):
       return reflected[(col, row)]
   return generate_matrix(size, size, diag_generator)
 
-jrec = jplot.Recorder(filename)
-jmath.jacobi_diagonalize(random_diagonal_matrix(5, 10000), 10**-6, jrec.record,
-    jrec.start, jrec.stop)
 
-jplotter = jplot.Plotter(filename)
+filename_base = 'jacobi_data'
+filename_end = '.txt'
+num_mats = 10
+def file_of(i):
+  return filename_base + str(i) + filename_end
+for i in range(num_mats):
+  print "-------JACOBI MATRIX DIAGONALIZATION-------------"
+  print "Diagonalizing " + str(num_mats) + " randomly generated 5 by 5 symmetric matrices..."
+  filename = file_of(i) 
+  jrec = jplot.Recorder(filename)
+  jmath.jacobi_diagonalize(random_diagonal_matrix(5, 10000), 10**-6, jrec.record,
+      jrec.start, jrec.stop)
+
+filenames = map(file_of, range(num_mats)) 
+jplotter = jplot.MultiPlotter(filenames)
 jplotter.plot()
