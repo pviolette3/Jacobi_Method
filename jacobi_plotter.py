@@ -1,8 +1,23 @@
 import matplotlib.pyplot as plt
 import numpy as np
 
-def to_wolfram_alpha_string(arr):
-  return "{" +" ".join(map(str, arr)).replace("  ", ",").replace(" ", "").replace("[","{").replace("]", "}").replace(".","").replace("}{","},{")+"}"
+def wolfram_str(arr):
+  res = "{"
+  m = len(arr)
+  for i in range(m):
+    n = len(arr[i])
+    row = "{"
+    for j in range(n):
+      if j == n-1:
+        row += str(arr[i][j]) + "}"
+      else:
+        row += str(arr[i][j]) + ","
+    res += row
+    if i == m - 1:
+      res += "}"
+    else:
+      res += ","
+  return res
 
 class Recorder:
  
@@ -32,7 +47,7 @@ class Recorder:
     print diagonalized[0]
     print "\nCopy and paste into your browser to check solution:"
     wolfram_base_query = '"http://www.wolframalpha.com/input/?i=' 
-    print  wolfram_base_query + to_wolfram_alpha_string(self.matrix)+'"'
+    print  wolfram_base_query + wolfram_str(self.matrix)+'"'
     self.file.close()
 
   def record(self, offset, diagonal, step):
@@ -53,6 +68,9 @@ class Plotter:
       vals = line.split(",")
       points.append(float(vals[1]))
     plt.plot(range(len(points)), points, 'r--')
+  
+  def show(self):
+    plt.show()
 
 class MultiPlotter:
   def __init__(self, locations):
@@ -60,13 +78,20 @@ class MultiPlotter:
     for file_location in locations:
       self.plotters.append(Plotter(file_location))
 
+  def fit_dim(self, dim):
+    if dim % 2 == 1:
+      return (dim, 1)
+    else:
+      return (dim/2, 2)
+
   def plot(self):
     plt.figure(1)
-    rows = 5
-    cols = 2
+    rows, cols = self.fit_dim(len(self.plotters))
     i = 1
     for plotter in self.plotters:
       plt.subplot(rows, cols, i)
       plotter.plot()
       i += 1
+  
+  def show(self):
     plt.show()
