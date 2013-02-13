@@ -17,7 +17,7 @@ Features
 
 Dependencies
 ============
-This project depends on numpy for heavy matrix multiplication and matplotlib for graphing.
+This project depends on numpy for heavy matrix multiplication, scipy for data analysis, and matplotlib for graphing.
 
 They can easily be installed in Ubuntu with the package manager:
 ```
