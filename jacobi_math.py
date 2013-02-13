@@ -1,4 +1,5 @@
 from numpy import *
+import random as rand
 
 def jacobi_diagonalize(sym_arr, offset_threshold=10**-6, record = lambda off,
     cur_diag, cur_steps: None, start = lambda mat: None, stop = lambda res :
@@ -22,6 +23,34 @@ def jacobi_diagonalize(sym_arr, offset_threshold=10**-6, record = lambda off,
   stop(res)
   return res
 
+def generate_matrix(rows, cols, generating_function):
+  result = []
+  for i in range(rows):
+    for j in range(cols):
+      result.append(generating_function(i, j))
+  return array(result, dtype=float).reshape(rows, cols)
+
+def random_diagonal_matrix(size, max_element):
+  reflected = {}
+  def diag_generator(row, col):
+    if row <= col:
+      val = rand.random() * max_element * (-1)**rand.randint(0,1)
+      reflected[(row, col)] = int(val + 1)
+      return reflected[(row, col)]
+    else:
+      return reflected[(col, row)]
+  return generate_matrix(size, size, diag_generator)
+
+def largest_off_index(sym_matr):
+  max = -1
+  pos = [0,0]
+  for i in range(len(sym_matr)):
+    for j in range(i, len(sym_matr)):
+        off = sym_matr[i][j] ** 2
+        if off > max and i != j:
+          max = off
+          pos = [i,j]
+  return pos
 
 def diagonalize_2by2(arr):
   eigs = eig_calc(arr)
@@ -70,17 +99,21 @@ def small_matr_of(large, pos):
   b = pos[1]
   return array([large[a][a], large[a][b], large[b][a],
     large[b][b]]).reshape(2,2)
-
-def largest_off_index(sym_matr):
-  max = -1
-  pos = [0,0]
-  for i in range(len(sym_matr)):
-    for j in range(i, len(sym_matr)):
-        off = sym_matr[i][j] ** 2
-        if off > max and i != j:
-          max = off
-          pos = [i,j]
-  return pos
+class OffFinder:
+  def __init__(self):
+    self.pos = [0,0]
+  
+  def largest_off_index(self, sym_matr):
+    pos = self.pos
+    if pos[1] >= len(sym_matr) - 1:
+      if pos[0] >= len(sym_matr) - 2:
+        pos[0] = 0
+      else:
+        pos[0] = pos[0] + 1
+      pos[1] = pos[0] + 1 # Not on diagonal
+    else:
+      pos[1] = pos[1] + 1
+    return pos
 
 def promote(two_by_two, pos, up_dim):
   result = eye(up_dim)

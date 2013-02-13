@@ -46,9 +46,9 @@ class Recorder:
     print 'Eigenvalues: ' + ' '.join(map(str, eigenvals))
     print 'Eigenvectors are:'
     print diagonalized[0]
-    print "\nCopy and paste into your browser to check solution:"
-    wolfram_base_query = '"http://www.wolframalpha.com/input/?i=' 
-    print  wolfram_base_query + wolfram_str(self.matrix)+'"'
+#    print "\nCopy and paste into your browser to check solution:"
+#    wolfram_base_query = '"http://www.wolframalpha.com/input/?i=' 
+#    print  wolfram_base_query + wolfram_str(self.matrix)+'"'
     self.file.close()
 
   def record(self, offset, diagonal, step):
@@ -73,9 +73,9 @@ class Plotter:
       vals = line.split(",")
       points.append(float(vals[1]))
     iters = np.arange(len(points))
-    def fit(x):
-      return x * np.log(9.0/10.0) + np.log(points[0])
-    plt.plot(iters, fit(iters))
+#    def fit(x):
+#      return x * np.log(9.0/10.0) + np.log(points[0])
+#    plt.plot(iters, fit(iters))
     plt.plot(iters, np.log(points))
 
 def show(self):

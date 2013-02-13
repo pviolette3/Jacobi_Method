@@ -1,26 +1,7 @@
 from optparse import OptionParser
 import jacobi_math as jmath
-import random as rand
 import numpy as np
 import jacobi_plotter as jplot 
-
-def generate_matrix(rows, cols, generating_function):
-  result = []
-  for i in range(rows):
-    for j in range(cols):
-      result.append(generating_function(i, j))
-  return np.array(result, dtype=float).reshape(rows, cols)
-
-def random_diagonal_matrix(size, max_element):
-  reflected = {}
-  def diag_generator(row, col):
-    if row <= col:
-      val = rand.random() * max_element * (-1)**rand.randint(0,1)
-      reflected[(row, col)] = int(val + 1)
-      return reflected[(row, col)]
-    else:
-      return reflected[(col, row)]
-  return generate_matrix(size, size, diag_generator)
 
 parser = OptionParser()
 parser.set_defaults(extension=".txt",dim=5,num_mats=10,plot=False,
@@ -43,12 +24,14 @@ max_offset = options.error
 
 def file_of(i):
   return filename_base + str(i) + filename_end
+
+print "-------JACOBI MATRIX DIAGONALIZATION-------------"
+print "Diagonalizing " + str(num_mats) + " randomly generated " +str(dim) + "x"+ str(dim) +" symmetric matrices..."
+
 for i in range(num_mats):
-  print "-------JACOBI MATRIX DIAGONALIZATION-------------"
-  print "Diagonalizing " + str(num_mats) + " randomly generated" +str(dim) + "x"+ str(dim) +" symmetric matrices..."
   filename = file_of(i) 
   jrec = jplot.Recorder(filename)
-  jmath.jacobi_diagonalize(random_diagonal_matrix(dim, max_mat_elem), max_offset, jrec.record, jrec.start, jrec.stop)
+  jmath.jacobi_diagonalize(jmath.random_diagonal_matrix(dim, max_mat_elem), max_offset, jrec.record, jrec.start, jrec.stop)
 
 if show_plot:
   filenames = map(file_of, range(num_mats)) 
