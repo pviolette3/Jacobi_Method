@@ -12,6 +12,8 @@ Features
 * Diagonalize a random symmetric matrix, or extend for your own symmetric matrix
 * Log the offsets over time to text files, or extend with your own callbacks
 * Show simple plot of the offsets over time with the -p flag
+* Added data_analysis.py that finds how long it took, on average, to reduce the
+  error to a certain proportion of the initial error.
 
 Dependencies
 ============
