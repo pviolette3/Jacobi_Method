@@ -1,5 +1,6 @@
 import matplotlib.pyplot as plt
 import numpy as np
+from sys import stdout
 
 def wolfram_str(arr):
   res = "{"
@@ -52,9 +53,13 @@ class Recorder:
 
   def record(self, offset, diagonal, step):
     self.file.write(str(self.i) + "," + str(offset)+ "\n")
-    if self.i % 100 == 0:
-      print "computing..."
-
+    if(self.i == 0):
+      print "Computing",
+    if self.i % 10 == 0:
+      stdout.write(".")
+      stdout.flush()
+    if self.i % 500 == 0:
+      print
     self.i += 1
 
 class Plotter:
@@ -67,10 +72,14 @@ class Plotter:
     for line in self.file:
       vals = line.split(",")
       points.append(float(vals[1]))
-    plt.plot(range(len(points)), points, 'r--')
-  
-  def show(self):
-    plt.show()
+    iters = np.arange(len(points))
+    def fit(x):
+      return x * np.log(9.0/10.0) + np.log(points[0])
+    plt.plot(iters, fit(iters))
+    plt.plot(iters, np.log(points))
+
+def show(self):
+  plt.show()
 
 class MultiPlotter:
   def __init__(self, locations):
@@ -88,7 +97,7 @@ class MultiPlotter:
     plt.figure(1)
     rows, cols = self.fit_dim(len(self.plotters))
     i = 1
-    plt.suptitle("Offsets v Iterations", fontsize=20)
+    plt.suptitle("Log(Offsets) v Iterations", fontsize=20)
     for plotter in self.plotters:
       plt.subplot(rows, cols, i)
       plotter.plot()
